@@ -1,0 +1,70 @@
+{% extends 'includes/base.html' %}
+{% load lib_mgmt_sys_extras %}
+
+{% block content  %}
+    <table class="table">
+        <thead>
+            <th>Name</th>
+            <th>Author</th>
+            <th>Price</th>
+            <th>No.of pages</th>
+            <th>Photo</th>
+
+
+            <th>
+                {% if user.is_authenticated and request.user|has_group:'librian' %}
+                Edit
+                {% endif %}
+            </th>
+            <th>
+                {% if user.is_authenticated and request.user|has_group:'librian' %}
+                Delete
+                {% endif %}
+            </th>
+
+        </thead>
+        <tbody>
+            {% for book in books %}
+                <tr>
+                    <td>{{ book.name }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.price }}</td>
+                    <td>{{ book.no_page }}</td>
+                    <td>
+                        {% if book.cover_photo %}
+                            <img src="{{ book.cover_photo.url }}" alt = "Image not found" height="30px">
+                        {% else %}
+                            No Photo Avaliable
+                        {% endif %}
+                    </td>
+
+
+                    <td>
+                        {% if user.is_authenticated and request.user|has_group:'librian' %}
+
+                        <a href="{% url 'lms:edit_book' id=book.id %}">
+                            <button class = "btn btn-warning">Edit</button>
+                        </a>
+                        {% endif %}
+                    </td>
+
+
+                    <td>
+                        {% if user.is_authenticated and request.user|has_group:'librian' %}
+                        <a href="{% url 'lms:delete_book' id=book.id %}">
+                            <button class = "btn btn-danger">Delete</button>
+                        </a>
+                        {% endif %}
+                    </td>
+
+
+                </tr>
+            {% endfor %}
+
+
+
+        </tbody>
+    </table>
+
+
+{% endblock %}

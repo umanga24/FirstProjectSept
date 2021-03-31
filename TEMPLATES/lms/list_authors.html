@@ -1,0 +1,53 @@
+{% extends 'includes/base.html' %}
+{% load lib_mgmt_sys_extras %}
+{% block content %}
+    <table class = "table">
+        <thead>
+            <th>Name</th>
+            <th>Age</th>
+            <th>
+                {% if user.is_authenticated and request.user|has_group:'librian' %}
+                Edit
+                {% endif %}
+            </th>
+            <th>
+                {% if user.is_authenticated and request.user|has_group:'librian' %}
+                Delete
+                {% endif %}
+            </th>
+
+        </thead>
+
+    <tbody>
+        {% for author in authors %}
+        <tr>
+            <td>{{author.name}}</td>
+            <td>{{author.age}}</td>
+
+                    <td>
+                        {% if user.is_authenticated and request.user|has_group:'librian'%}
+                        <a href="{% url 'lms:edit_author' id=author.id %}">
+                            <button class = "btn btn-warning">Edit</button>
+                        </a>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if user.is_authenticated and request.user|has_group:'librian' %}
+                        <a href="{% url 'lms:delete_author' id=author.id %}">
+                            <button class = "btn btn-danger">Delete</button>
+                        </a>
+                        {% endif %}
+                    </td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+
+
+
+
+
+    </table>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'includes/base.html' %}
+{% load lib_mgmt_sys_extras %}
+
+{% block content  %}<br>
+{% if user.is_authenticated %}
+     <li class="nav-item">
+        <a class="btn btn-success" href="{% url 'lms:add_student' %}">Add New</a>
+     </li><br>
+{% endif %}
+    <table class="table">
+        <thead>
+            <th>Name</th>
+            <th>Roll</th>
+            <th>Booked</th>
+            <th>
+                {% if user.is_authenticated and request.user|has_group:'librian'%}
+
+                Edit
+            {% endif %}
+            </th>
+            <th>
+                {% if user.is_authenticated and request.user|has_group:'librian' %}
+
+                Delete
+                {% endif %}
+            </th>
+
+        </thead>
+        <tbody>
+            {% for student in students %}
+                <tr>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.roll }}</td>
+                    <td> {{student.booked.all | join:', '}} </td>
+
+
+
+
+<!--                    {% for book in student.booked.all %}-->
+<!--                        {{book}},-->
+<!--                        {% endfor %}-->
+
+
+
+                    <td>
+                        {% if user.is_authenticated and request.user|has_group:'librian' %}
+                        <a href="{% url 'lms:edit_student' pk=student.pk %}">
+                            <button class="btn btn-warning">Edit</button>
+
+                        </a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user.is_authenticated and request.user|has_group:'librian' %}
+                        <a href="{% url 'lms:delete_student' pk=student.pk %}">
+                            <button class="btn btn-danger">Delete</button>
+
+                        </a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'lms:detail_student' pk=student.pk %}">
+                            <button class="btn btn-primary">Details</button>
+
+                        </a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

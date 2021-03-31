@@ -1,0 +1,10 @@
+{% extends 'includes/base.html' %}
+
+
+{% block content %}
+
+    <h1>{{ student.name }}</h1>
+    <h1>{{ student.roll }}</h1>
+    <h1>{{ student.booked }}</h1>
+<a href="{% url 'lms:list_student' %}"> <button class="btn btn-light"><< back </button></a>
+{% endblock %}

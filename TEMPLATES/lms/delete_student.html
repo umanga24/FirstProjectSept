@@ -1,0 +1,14 @@
+{% extends 'includes/base.html' %}
+{% block content %}
+
+    <form action="#" method="POST">
+        {% csrf_token %}
+        <h2>Are you want to delete {{ student.name }}?? </h2>
+        <button type="submit" class="btn btn-danger">Okay</button>
+
+        <a href="{% url 'lms:list_student' %}" class="btn btn-light">Cancel</a>
+
+    </form>
+
+
+{% endblock %}
